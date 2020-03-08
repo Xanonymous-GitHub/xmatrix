@@ -126,18 +126,17 @@ class Matrix:
             new[1][0] *= -1
             new = self.__rate(new, 1 / determinant)
             return Matrix(new)
-        else:
-            ans = list()
-            new = self.__storage[:].copy()
-            for i, x in enumerate(self.__storage):
-                ans_tmp = list()
-                for j, y in enumerate(x):
-                    h = (-1 if i % 2 else 1) * (-1 if j % 2 else 1)
-                    ans_tmp.append(h * self.__determinant(self.__get_ans_range(i, j, new)))
-                ans.append(ans_tmp)
-            ans = self.__transpose(ans)
-            new = self.__rate(ans, 1 / determinant)
-            return Matrix(new)
+        ans = list()
+        new = self.__storage[:].copy()
+        for i, x in enumerate(self.__storage):
+            ans_tmp = list()
+            for j, y in enumerate(x):
+                h = (-1 if i % 2 else 1) * (-1 if j % 2 else 1)
+                ans_tmp.append(h * self.__determinant(self.__get_ans_range(i, j, new)))
+            ans.append(ans_tmp)
+        ans = self.__transpose(ans)
+        new = self.__rate(ans, 1 / determinant)
+        return Matrix(new)
 
     @property
     def transpose(self):
