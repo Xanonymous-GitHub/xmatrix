@@ -1,4 +1,10 @@
-# xmatrix
+# Xmatrix
+<p align="center">
+  <a href="https://vuetifyjs.com" target="_blank">
+    <img alt="xmatrixy Logo" width="80%" src="https://shakgq.bn.files.1drv.com/y4mzPvS0o0AAP6iY562jnqb5ySw_gNZmIFWDZeRCA1s2kManlXFgnVgvl6Ujj3YHtJUXoA6KByG4sfd75FDccHT_3qXa7oL7phHvCt_EypVlmbQs917gPxU1zelKr1UKvUSavFOInBi3lNEclw6h9lB2oA_azKhgbaRoGrlRm36OsWXLmhD2mXlA_jzJFDAla8TjsRhkVAEbsH7KR6WyTUA6g?width=1024&height=678&cropmode=none">
+  </a>
+</p>
+
 [![CodeFactor](https://www.codefactor.io/repository/github/xanonymous-github/xmatrix/badge)](https://www.codefactor.io/repository/github/xanonymous-github/xmatrix)
 - A python package to calculate Matrix math problems.
 - python version: 3.6 and above.
