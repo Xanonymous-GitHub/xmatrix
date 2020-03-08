@@ -1,5 +1,5 @@
 """
-    Copyright (C) 2020 By Xanonymous All Rights Reserved, Do Not Copy this file for anyway.
+    Copyright (C) 2020 By Xanonymous All Rights Reserved.
     Visit My GitHub:https://github.com/Xanonymous-GitHub
     This package is formatted by python official coding style linter (PEP8).
     More style details on:https://www.python.org/dev/peps/pep-0008
