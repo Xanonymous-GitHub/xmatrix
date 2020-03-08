@@ -10,12 +10,12 @@ pip install xmatrix
 ```
 #### Add import in your file
 ```python
-import xmatrix
+import xmatrix as Mx
 ```
 #### create a matrix
 - Matrix("<b>row</b> ; <b>row</b> ...")
 ```python
-my_matrix = Matrix("1,2;3,4")
+my_matrix = Mx.Matrix("1,2;3,4")
 
 #result:
 [1, 2]
@@ -23,7 +23,7 @@ my_matrix = Matrix("1,2;3,4")
 ```
 #### we also support bigger matrix
 ```python
-my_matrix = Matrix("1,2,3;4,5,6;7,8,9")
+my_matrix = Mx.Matrix("1,2,3;4,5,6;7,8,9")
 
 #result:
 [1, 2, 3]
@@ -33,8 +33,8 @@ my_matrix = Matrix("1,2,3;4,5,6;7,8,9")
 
 #### simple calculate
 ```python
-my_matrix = Matrix("1,2;3,4")
-my_matrix2 = Matrix("4,6;2,9")
+my_matrix = Mx.Matrix("1,2;3,4")
+my_matrix2 = Mx.Matrix("4,6;2,9")
 
 print(my_matrix + my_matrix2)
 #result:
@@ -63,7 +63,7 @@ print(my_matrix ** 7)
 ```
 #### Transpose Matrix
 ```python
-my_matrix = Matrix("1,2,3;4,5,6;7,8,9")
+my_matrix = Mx.Matrix("1,2,3;4,5,6;7,8,9")
 
 print(my_matrix)
 #result:
@@ -95,7 +95,7 @@ print(my_matrix2.transpose)
 ```
 #### Inverse
 ```python
-my_matrix = Matrix("1,2;3,4")
+my_matrix = Mx.Matrix("1,2;3,4")
 
 print(my_matrix)
 #result:
@@ -107,7 +107,7 @@ print(my_matrix.inverse)
 [-2, 1]
 [1.5, -0.5]
 
-my_matrix2 = Matrix("1,2,3;4,5,6;7,8,9")
+my_matrix2 = Mx.Matrix("1,2,3;4,5,6;7,8,9")
 
 print(my_matrix2)
 #result:
@@ -120,7 +120,7 @@ print(my_matrix2.inverse)
 #The determinant is zero, can't be inverse.
 #None
 
-my_matrix3 = Matrix("1,1,1;1,2,3;1,4,5")
+my_matrix3 = Mx.Matrix("1,1,1;1,2,3;1,4,5")
 
 print(my_matrix3)
 #result:
@@ -134,7 +134,7 @@ print(my_matrix3.inverse)
 [1, -2, 1]
 [-1, 1.5, -0.5]
 
-my_matrix4 = Matrix("1,1,2,1;1,1,0,0;1,1,0,1;1,0,1,0")
+my_matrix4 = Mx.Matrix("1,1,2,1;1,1,0,0;1,1,0,1;1,0,1,0")
 
 print(my_matrix4)
 #result:
@@ -155,7 +155,7 @@ print(my_matrix4.inverse)
 ```
 #### get the matrix by list
 ```python
-my_matrix = Matrix("1,2,3;4,5,6;7,8,9")
+my_matrix = Mx.Matrix("1,2,3;4,5,6;7,8,9")
 
 print(my_matrix.raw)
 #result:
