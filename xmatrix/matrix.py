@@ -10,9 +10,9 @@ class Matrix:
     """Define the Matrix class"""
 
     def __init__(self, u: str or list):
-        if type(u) != list:
+        if not isinstance(u, list):
             u = u.split(";")
-            for i in range(len(u)):
+            for i, _ in enumerate(u):
                 u[i] = u[i].split(",")
                 for j, y in enumerate(u[i]):
                     try:
@@ -57,7 +57,7 @@ class Matrix:
 
     # Matrix multiplication
     def __mul__(self, other):
-        if type(other) is int:
+        if isinstance(other, int):
             # method accept single integer to be calculated.
             new = list()
             for i, x in enumerate(self.__storage):
@@ -119,7 +119,7 @@ class Matrix:
             new = self.__storage[:].copy()
             new[0][0] = new[0][0] ** -1
             return Matrix(new)
-        elif len(self.__storage) == 2:
+        if len(self.__storage) == 2:
             new = self.__storage[:].copy()
             new[0][0], new[1][1] = new[1][1], new[0][0]
             new[0][1] *= -1
@@ -161,7 +161,7 @@ class Matrix:
         return sum(result)
 
     def __valid(self, r) -> bool:
-        if not len(r):
+        if not r:
             self.__error_handler("Empty matrix")
             return False
         for p in range(len(r) - 1):
@@ -210,7 +210,7 @@ class Matrix:
             for j, y in enumerate(x):
                 if not (i == ii or j == jj):
                     tmp_slice.append(y)
-            if len(tmp_slice):
+            if tmp_slice:
                 ans.append(tmp_slice)
         return ans
 
