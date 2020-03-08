@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="example-pkg-YOUR-USERNAME-HERE",
+    name="xmatrix",
     version="1.0",
     author="Xanonymous",
     author_email="trusaidlin@gmail.com",
