@@ -17,6 +17,7 @@ pip install xmatrix
 #### Add import in your file
 ```python
 import xmatrix as Mx
+from xmatrix import * # This would be better.
 ```
 #### create a matrix
 - Matrix("<b>row</b> ; <b>row</b> ...")
@@ -66,6 +67,10 @@ print(my_matrix ** 7)
 #result:
 [30853, 44966]
 [67449, 98302]
+
+print(my_matrix == my_matrix2)
+#result:
+False
 ```
 #### Transpose Matrix
 ```python
@@ -166,4 +171,11 @@ my_matrix = Mx.Matrix("1,2,3;4,5,6;7,8,9")
 print(my_matrix.raw)
 #result:
 [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+```
+
+#### get identity Matrix
+```python
+i = Mx.UnitMatrix()
+print(i)
+[1,0]
 ```
