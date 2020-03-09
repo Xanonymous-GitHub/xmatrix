@@ -98,7 +98,18 @@ class Matrix:
             new = self.__storage[:].copy()
             return Matrix(new)
         if not power:
-            return Matrix("1,0;0,1")
+            n = len(self.__storage)
+            tmp_n = n
+            tmp = list()
+            while tmp_n:
+                tmp_tmp = list()
+                m = n
+                while m:
+                    tmp_tmp.insert(0, 1 if m == tmp_n else 0)
+                    m -= 1
+                tmp.insert(0, tmp_tmp)
+                tmp_n -= 1
+            return Matrix(tmp)
         if not len(self.__storage) == len(self.__storage[0]):
             self.__error_handler("Unable to calculate power, not square.")
             return
@@ -243,8 +254,18 @@ class Matrix:
 
 
 class UnitMatrix(Matrix):
-    def __init__(self):
-        super().__init__("1,0;0,1")
+    def __init__(self, n):
+        tmp_n = n
+        tmp = list()
+        while tmp_n:
+            tmp_tmp = list()
+            m = n
+            while m:
+                tmp_tmp.insert(0, 1 if m == tmp_n else 0)
+                m -= 1
+            tmp.insert(0, tmp_tmp)
+            tmp_n -= 1
+        super().__init__(tmp)
 
     def __str__(self):
         return super().__str__()
