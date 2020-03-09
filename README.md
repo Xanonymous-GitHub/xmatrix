@@ -176,7 +176,11 @@ print(my_matrix.raw)
 
 #### get identity Matrix
 ```python
-i = Mx.UnitMatrix()
+i = Mx.UnitMatrix(3)
+
+#result:
 print(i)
-[1,0]
+[1, 0, 1]
+[0, 0, 1]
+[0, 0, 1]
 ```
