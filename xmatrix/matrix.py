@@ -109,6 +109,9 @@ class Matrix:
         self.__storage = tmp.raw[:].copy()
         return Matrix(new)
 
+    def __eq__(self, other):
+        return other.raw == self.__storage
+
     @property
     def inverse(self):
         def make_new(old):

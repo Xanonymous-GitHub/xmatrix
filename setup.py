@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="xmatrix",
-    version="1.06",
+    version="1.0.7",
     author="Xanonymous",
     author_email="trusaidlin@gmail.com",
     description="Help you calculate matrix.",
