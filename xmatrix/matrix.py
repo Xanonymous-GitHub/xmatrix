@@ -111,23 +111,32 @@ class Matrix:
 
     @property
     def inverse(self):
+        def make_new(old):
+            new_thing = list()
+            for _, xx in enumerate(old):
+                new_tmp = list()
+                for _, yy in enumerate(xx):
+                    new_tmp.append(yy)
+                new_thing.append(new_tmp)
+            return new_thing
+
         determinant = self.__determinant(self.__storage)
         if not determinant:
             self.__error_handler("The determinant is zero, can't be inverse.")
             return
         if len(self.__storage) == 1:
-            new = self.__storage[:].copy()
+            new = make_new(self.__storage[:].copy())
             new[0][0] = new[0][0] ** -1
             return Matrix(new)
         if len(self.__storage) == 2:
-            new = self.__storage[:].copy()
+            new = make_new(self.__storage[:].copy())
             new[0][0], new[1][1] = new[1][1], new[0][0]
             new[0][1] *= -1
             new[1][0] *= -1
             new = self.__rate(new, 1 / determinant)
             return Matrix(new)
         ans = list()
-        new = self.__storage[:].copy()
+        new = make_new(self.__storage[:].copy())
         for i, x in enumerate(self.__storage):
             ans_tmp = list()
             for j, y in enumerate(x):
@@ -150,6 +159,8 @@ class Matrix:
         if not len(r) == len(r[0]):
             self.__error_handler("Can't get the determinant of this matrix.")
             return
+        if len(r) == 1:
+            return r[0]
         if len(r) == 2:
             return r[0][0] * r[1][1] - r[0][1] * r[1][0]
         result = list()
