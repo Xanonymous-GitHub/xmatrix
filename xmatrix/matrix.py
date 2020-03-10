@@ -252,6 +252,16 @@ class Matrix:
             r[i][0] *= rate
         return r
 
+    @staticmethod
+    def __make_copy(old: list) -> list:
+        new = list()
+        for _, x in enumerate(old):
+            new_tmp = list()
+            for _, y in enumerate(x):
+                new_tmp.append(y)
+            new.append(new_tmp)
+        return new
+
 
 class UnitMatrix(Matrix):
     def __init__(self, n):
