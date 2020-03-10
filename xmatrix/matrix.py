@@ -59,12 +59,7 @@ class Matrix:
     def __mul__(self, other):
         if isinstance(other, int):
             # method accept single integer to be calculated.
-            new = list()
-            for i, x in enumerate(self.__storage):
-                new_tmp = list()
-                for _, y in enumerate(x):
-                    new_tmp.append(y)
-                new.append(new_tmp)
+            new = self.__make_copy(self.__storage)
             return Matrix(self.__rate(new, other))
         # If the matrices cannot be multiplied, throw an error.
         resource = other.raw
@@ -77,7 +72,7 @@ class Matrix:
                 return
         # if the second matrix is an identity_matrix, the answer will be the same as first matrix.
         if self.is_unit_matrix(resource):
-            new = self.__storage[:].copy()
+            new = self.__make_copy(self.__storage)
             return Matrix(new)
         new = list()
         for i, x in enumerate(self.__storage):
@@ -94,9 +89,10 @@ class Matrix:
         return self.__mul__(other)
 
     def __pow__(self, power: int, modulo=None):
+        # if self is an identity matrix or power assign 1, than return self.
         if self.is_unit_matrix(self.__storage) or power == 1:
-            new = self.__storage[:].copy()
-            return Matrix(new)
+            return Matrix(self.__make_copy(self.__storage))
+        # if power == 0, than return identity matrix.
         if not power:
             n = len(self.__storage)
             tmp_n = n
@@ -110,14 +106,22 @@ class Matrix:
                 tmp.insert(0, tmp_tmp)
                 tmp_n -= 1
             return Matrix(tmp)
+        # if the matrix is not a square or invalid, return error.
         if not len(self.__storage) == len(self.__storage[0]):
             self.__error_handler("Unable to calculate power, not square.")
             return
-        tmp = Matrix(self.__storage[:].copy())
+        # if the power < 0, recursive the positive power by self inverse.
+        tmp = Matrix(self.__make_copy(self.__storage))
+        if power < 0:
+            tmp = tmp.inverse
+            if tmp is not None:
+                return tmp.inverse ** (power * -1)
+            return self.__error_handler("Unable to calculate power, determinant is zero.")
+        # calculate the positive power value of this matrix.
         for x in range(power - 1):
             self.__storage = self.__mul__(tmp).raw
-        new = self.__storage[:].copy()
-        self.__storage = tmp.raw[:].copy()
+        new = self.__make_copy(self.__storage)
+        self.__storage = self.__make_copy(tmp.raw)
         return Matrix(new)
 
     def __eq__(self, other):
@@ -125,32 +129,20 @@ class Matrix:
 
     @property
     def inverse(self):
-        def make_new(old):
-            new_thing = list()
-            for _, xx in enumerate(old):
-                new_tmp = list()
-                for _, yy in enumerate(xx):
-                    new_tmp.append(yy)
-                new_thing.append(new_tmp)
-            return new_thing
-
         determinant = self.__determinant(self.__storage)
         if not determinant:
             self.__error_handler("The determinant is zero, can't be inverse.")
             return
+        new = self.__make_copy(self.__storage)
         if len(self.__storage) == 1:
-            new = make_new(self.__storage[:].copy())
             new[0][0] = new[0][0] ** -1
             return Matrix(new)
         if len(self.__storage) == 2:
-            new = make_new(self.__storage[:].copy())
             new[0][0], new[1][1] = new[1][1], new[0][0]
             new[0][1] *= -1
             new[1][0] *= -1
-            new = self.__rate(new, 1 / determinant)
-            return Matrix(new)
+            return Matrix(self.__rate(new, 1 / determinant))
         ans = list()
-        new = make_new(self.__storage[:].copy())
         for i, x in enumerate(self.__storage):
             ans_tmp = list()
             for j, y in enumerate(x):
@@ -158,13 +150,11 @@ class Matrix:
                 ans_tmp.append(h * self.__determinant(self.__get_ans_range(i, j, new)))
             ans.append(ans_tmp)
         ans = self.__transpose(ans)
-        new = self.__rate(ans, 1 / determinant)
-        return Matrix(new)
+        return Matrix(self.__rate(ans, 1 / determinant))
 
     @property
     def transpose(self):
-        new = self.__storage[:].copy()
-        return Matrix(self.__transpose(new))
+        return Matrix(self.__transpose(self.__make_copy(self.__storage)))
 
     def __determinant(self, r) -> int or float:
         if not self.__valid(r):
@@ -210,7 +200,7 @@ class Matrix:
 
     @staticmethod
     def __error_handler(msg):
-        print(msg)
+        return print(msg)
 
     @staticmethod
     def __transpose(resource: list) -> list:
