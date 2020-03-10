@@ -5,6 +5,8 @@
     More style details on:https://www.python.org/dev/peps/pep-0008
 """
 
+from math import isclose
+
 
 class Matrix:
     """Define the Matrix class"""
@@ -115,7 +117,7 @@ class Matrix:
         if power < 0:
             tmp = tmp.inverse
             if tmp is not None:
-                return tmp.inverse ** (power * -1)
+                return tmp ** (power * -1)
             return self.__error_handler("Unable to calculate power, determinant is zero.")
         # calculate the positive power value of this matrix.
         for x in range(power - 1):
@@ -188,13 +190,16 @@ class Matrix:
         # get the real value of the object
         return self.__storage
 
-    @staticmethod
-    def __pretty(r) -> str:
-        # Detect if the value can be an integer.
+    def __pretty(self, r) -> str:
+        # Detect if the value can be more short.
         for i, x in enumerate(r):
             for j, y in enumerate(x):
-                if abs(r[i][j] - int(r[i][j])) < 10 ** -3:
+                # try to turn the data to integer.
+                if abs(r[i][j] - int(r[i][j])) < 10 ** -4:
                     r[i][j] = int(r[i][j])
+                # the max floating point length in python is 16 so we use 15 to calculate.
+                if isinstance(r[i][j], float):
+                    r[i][j] = self.__get_near_number(r[i][j], 15)
         # format the value then return
         return '\n'.join(map(str, r)) + '\n'
 
@@ -251,6 +256,12 @@ class Matrix:
                 new_tmp.append(y)
             new.append(new_tmp)
         return new
+
+    # find the max nearly round number of the float value.
+    def __get_near_number(self, data: float, pos: int) -> int or float:
+        if not isclose(data, round(data, pos), rel_tol=1e-4):
+            return round(data, pos + 1)
+        return self.__get_near_number(data, pos - 1)
 
 
 class UnitMatrix(Matrix):
