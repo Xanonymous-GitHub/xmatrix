@@ -1,16 +1,12 @@
 """
     Copyright (C) 2020 By Xanonymous All Rights Reserved.
     Visit My GitHub:https://github.com/Xanonymous-GitHub
-    This package is formatted by python official coding style linter (PEP8).
-    More style details on:https://www.python.org/dev/peps/pep-0008
 """
 
 from math import isclose
 
 
 class Matrix:
-    """Define the Matrix class"""
-
     def __init__(self, u: str or list):
         if not isinstance(u, list):
             u = u.split(";")
@@ -30,7 +26,7 @@ class Matrix:
             return
         self.__storage = u
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.__pretty(self.__storage)
 
     __repr__ = __str__
@@ -193,6 +189,38 @@ class Matrix:
         # get the real value of the object
         return self.__storage
 
+    @property
+    def rref(self):
+        data = self.__make_copy(self.__storage)
+        top = 0
+        for i, _ in enumerate(data[0]):
+            found_nonzero_entry = False
+            for j, row in enumerate(data[top:]):
+                if row[i]:
+                    found_nonzero_entry = True
+                    if j:
+                        data[top], data[top + j] = data[top + j], data[top]
+                    if row[i] != 1:
+                        row_i_tmp = row[i]
+                        for k, _ in enumerate(data[top]):
+                            data[top][k] /= row_i_tmp
+                    break
+            if found_nonzero_entry:
+                for j, row in enumerate(data[top + 1:]):
+                    data[top + j + 1] = self.__add_same_len_list(data[top + j + 1], data[top], -1 * row[i])
+                top += 1
+        for i, row in enumerate(data[1:]):
+            pivot_pos = int()
+            for j, col in enumerate(row):
+                if col:
+                    pivot_pos = j
+                    break
+            if pivot_pos:
+                for k, _row in enumerate(data[:i + 1]):
+                    data[k] = self.__add_same_len_list(data[k], row, -1 * _row[pivot_pos])
+        print(data)
+        return Matrix(data)
+
     def __pretty(self, r) -> str:
         # Detect if the value can be more short.
         for i, x in enumerate(r):
@@ -207,7 +235,7 @@ class Matrix:
         return '\n'.join(map(str, r)) + '\n'
 
     @staticmethod
-    def __error_handler(msg):
+    def __error_handler(msg: str):
         return print(msg)
 
     @staticmethod
@@ -259,6 +287,13 @@ class Matrix:
                 new_tmp.append(y)
             new.append(new_tmp)
         return new
+
+    @staticmethod
+    def __add_same_len_list(list_a: list, list_b: list, scalar: int or float = 1) -> list:
+        result = list()
+        for i, x in enumerate(list_a):
+            result.append(x + (scalar * list_b[i]))
+        return result
 
     # find the max nearly round number of the float value.
     def __get_near_number(self, data: float, pos: int) -> int or float:
