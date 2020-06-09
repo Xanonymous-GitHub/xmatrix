@@ -7,6 +7,7 @@
 
 ![](https://img.shields.io/pypi/v/xmatrix.svg)
 [![CodeFactor](https://www.codefactor.io/repository/github/xanonymous-github/xmatrix/badge)](https://www.codefactor.io/repository/github/xanonymous-github/xmatrix)
+![Python PyPi](https://github.com/Xanonymous-GitHub/xmatrix/workflows/Upload%20Python%20Package/badge.svg)
 - A python package to calculate Matrix math problems.
 - python version: 3.6 and above.
 
