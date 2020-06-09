@@ -33,6 +33,8 @@ class Matrix:
     def __str__(self):
         return self.__pretty(self.__storage)
 
+    __repr__ = __str__
+
     def __del__(self):
         del self
 
@@ -73,7 +75,7 @@ class Matrix:
                 self.__error_handler("Cannot be multiplied.")
                 return
         # if the second matrix is an identity_matrix, the answer will be the same as first matrix.
-        if self.is_unit_matrix(resource):
+        if self.is_identity_matrix(resource):
             new = self.__make_copy(self.__storage)
             return Matrix(new)
         new = list()
@@ -92,7 +94,7 @@ class Matrix:
 
     def __pow__(self, power: int, modulo=None):
         # if self is an identity matrix or power assign 1, than return self.
-        if self.is_unit_matrix(self.__storage) or power == 1:
+        if self.is_identity_matrix(self.__storage) or power == 1:
             return Matrix(self.__make_copy(self.__storage))
         # if power == 0, than return identity matrix.
         if not power:
@@ -149,7 +151,8 @@ class Matrix:
             ans_tmp = list()
             for j, y in enumerate(x):
                 h = (-1 if i % 2 else 1) * (-1 if j % 2 else 1)
-                ans_tmp.append(h * self.__determinant(self.__get_ans_range(i, j, new)))
+                ans_tmp.append(
+                    h * self.__determinant(self.__get_ans_range(i, j, new)))
             ans.append(ans_tmp)
         ans = self.__transpose(ans)
         return Matrix(self.__rate(ans, 1 / determinant))
@@ -212,7 +215,7 @@ class Matrix:
         return list(map(list, zip(*resource)))
 
     @staticmethod
-    def is_unit_matrix(resource: list) -> bool:
+    def is_identity_matrix(resource: list) -> bool:
         for i, x in enumerate(resource):
             for j, y in enumerate(x):
                 if i == j and resource[i][j] != 1:
@@ -262,21 +265,3 @@ class Matrix:
         if not isclose(data, round(data, pos), rel_tol=1e-4):
             return round(data, pos + 1)
         return self.__get_near_number(data, pos - 1)
-
-
-class UnitMatrix(Matrix):
-    def __init__(self, n):
-        tmp_n = n
-        tmp = list()
-        while tmp_n:
-            tmp_tmp = list()
-            m = n
-            while m:
-                tmp_tmp.insert(0, 1 if m == tmp_n else 0)
-                m -= 1
-            tmp.insert(0, tmp_tmp)
-            tmp_n -= 1
-        super().__init__(tmp)
-
-    def __str__(self):
-        return super().__str__()

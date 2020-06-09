@@ -182,7 +182,7 @@ print(my_matrix.raw)
 
 #### get identity Matrix
 ```python
-i = Mx.UnitMatrix(3)
+i = Mx.IdentityMatrix(3)
 
 #result:
 print(i)
