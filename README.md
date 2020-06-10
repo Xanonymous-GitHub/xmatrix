@@ -18,7 +18,7 @@ pip3 install xmatrix --upgrade
 ```
 #### Add import in your file
 ```python
-import xmatrix
+from xmatrix import *
 ```
 #### create a matrix
 - Matrix("<b>row</b> ; <b>row</b> ...") or Matrix([[1,2,3],[4,5,6],[7,8,9]])
