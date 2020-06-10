@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -12,7 +12,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Xanonymous-GitHub/xmatrix",
-    packages=find_packages(),
+    packages=['xmatrix'],
     platforms=["all"],
     classifiers=[
         "Programming Language :: Python :: 3",
