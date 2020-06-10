@@ -127,6 +127,9 @@ class Matrix:
     def __eq__(self, other):
         return other.raw == self.__storage
 
+    def __copy__(self):
+        return Matrix(self.raw)
+
     @property
     def inverse(self):
         determinant = self.__determinant(self.__storage)
@@ -135,7 +138,8 @@ class Matrix:
             return
         new = self.__make_copy(self.__storage)
         if len(self.__storage) == 1:
-            new[0][0] = new[0][0] ** -1
+            if new[0][0]:
+                new[0][0] = new[0][0] ** -1
             return Matrix(new)
         if len(self.__storage) == 2:
             new[0][0], new[1][1] = new[1][1], new[0][0]
@@ -148,14 +152,23 @@ class Matrix:
             for j, y in enumerate(x):
                 h = (-1 if i % 2 else 1) * (-1 if j % 2 else 1)
                 ans_tmp.append(
-                    h * self.__determinant(self.__get_ans_range(i, j, new)))
+                    h * self.__determinant(self.__get_ans_range(i, j, new))
+                )
             ans.append(ans_tmp)
         ans = self.__transpose(ans)
         return Matrix(self.__rate(ans, 1 / determinant))
 
     @property
+    def iv(self):
+        return self.inverse
+
+    @property
     def transpose(self):
         return Matrix(self.__transpose(self.__make_copy(self.__storage)))
+
+    @property
+    def tp(self):
+        return self.transpose
 
     def __determinant(self, r) -> int or float:
         if not self.__valid(r):
@@ -172,7 +185,8 @@ class Matrix:
         for i, x in enumerate(r[0]):
             h = (-1 if i % 2 else 1)
             result.append(
-                self.__determinant(self.__magnification_iteration(self.__get_ans_range(0, i, r), h * x)))
+                self.__determinant(self.__magnification_iteration(self.__get_ans_range(0, i, r), h * x))
+            )
         return sum(result)
 
     def __valid(self, r) -> bool:
@@ -209,16 +223,16 @@ class Matrix:
                 for j, row in enumerate(data[top + 1:]):
                     data[top + j + 1] = self.__add_same_len_list(data[top + j + 1], data[top], -1 * row[i])
                 top += 1
-        for i, row in enumerate(data[1:]):
+        size = len(data)
+        for i, row in enumerate(data[-1:0:-1]):
             pivot_pos = int()
             for j, col in enumerate(row):
                 if col:
                     pivot_pos = j
                     break
             if pivot_pos:
-                for k, _row in enumerate(data[:i + 1]):
+                for k, _row in enumerate(data[:-1 * i + size - 1]):
                     data[k] = self.__add_same_len_list(data[k], row, -1 * _row[pivot_pos])
-        print(data)
         return Matrix(data)
 
     def __pretty(self, r) -> str:
@@ -289,10 +303,10 @@ class Matrix:
         return new
 
     @staticmethod
-    def __add_same_len_list(list_a: list, list_b: list, scalar: int or float = 1) -> list:
+    def __add_same_len_list(list_a: list, list_b: list, scalar=1) -> list:
         result = list()
         for i, x in enumerate(list_a):
-            result.append(x + (scalar * list_b[i]))
+            result.append(float(round(x, 4)) + float(scalar * round(list_b[i], 4)))
         return result
 
     # find the max nearly round number of the float value.
@@ -300,3 +314,6 @@ class Matrix:
         if not isclose(data, round(data, pos), rel_tol=1e-4):
             return round(data, pos + 1)
         return self.__get_near_number(data, pos - 1)
+
+
+xm = Matrix

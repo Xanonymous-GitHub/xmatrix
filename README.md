@@ -14,17 +14,18 @@
 ### Usage
 #### install
 ```bash
-pip install xmatrix
+pip3 install xmatrix --upgrade
 ```
 #### Add import in your file
 ```python
-import xmatrix as Mx
-from xmatrix import * # This would be better.
+import xmatrix
 ```
 #### create a matrix
-- Matrix("<b>row</b> ; <b>row</b> ...")
+- Matrix("<b>row</b> ; <b>row</b> ...") or Matrix([[1,2,3],[4,5,6],[7,8,9]])
+- xm("<b>row</b> ; <b>row</b> ...") or xm([[1,2,3],[4,5,6],[7,8,9]])
 ```python
-my_matrix = Mx.Matrix("1,2;3,4")
+my_matrix = Matrix("1,2;3,4")
+my_matrix_also_equal_to = xm("1,2;3,4")
 
 #result:
 [1, 2]
@@ -32,7 +33,7 @@ my_matrix = Mx.Matrix("1,2;3,4")
 ```
 #### we also support bigger matrix
 ```python
-my_matrix = Mx.Matrix("1,2,3;4,5,6;7,8,9")
+my_matrix = xm("1,2,3;4,5,6;7,8,9")
 
 #result:
 [1, 2, 3]
@@ -42,8 +43,8 @@ my_matrix = Mx.Matrix("1,2,3;4,5,6;7,8,9")
 
 #### simple calculate
 ```python
-my_matrix = Mx.Matrix("1,2;3,4")
-my_matrix2 = Mx.Matrix("4,6;2,9")
+my_matrix = xm("1,2;3,4")
+my_matrix2 = xm("4,6;2,9")
 
 print(my_matrix + my_matrix2)
 #result:
@@ -76,7 +77,7 @@ False
 ```
 #### Transpose Matrix
 ```python
-my_matrix = Mx.Matrix("1,2,3;4,5,6;7,8,9")
+my_matrix = xm("1,2,3;4,5,6;7,8,9")
 
 print(my_matrix)
 #result:
@@ -85,12 +86,13 @@ print(my_matrix)
 [7, 8, 9]
 
 print(my_matrix.transpose)
+print(my_matrix.tp)
 #result:
 [1, 4, 7]
 [2, 5, 8]
 [3, 6, 9]
 
-my_matrix2 = Matrix("1,2,3,4;5,6,7,8;9,10,11,12;13.1,14.2,15.3,16.4")
+my_matrix2 = xm("1,2,3,4;5,6,7,8;9,10,11,12;13.1,14.2,15.3,16.4")
 
 print(my_matrix2)
 #result:
@@ -99,7 +101,7 @@ print(my_matrix2)
 [9, 10, 11, 12]
 [13.1, 14.2, 15.3, 16.4]
 
-print(my_matrix2.transpose)
+print(my_matrix2.tp)
 #result:
 [1, 5, 9, 13.1]
 [2, 6, 10, 14.2]
@@ -108,7 +110,7 @@ print(my_matrix2.transpose)
 ```
 #### Inverse
 ```python
-my_matrix = Mx.Matrix("1,2;3,4")
+my_matrix = xm("1,2;3,4")
 
 print(my_matrix)
 #result:
@@ -116,6 +118,7 @@ print(my_matrix)
 [3, 4]
 
 print(my_matrix.inverse)
+print(my_matrix.iv)
 #result:
 [-2, 1]
 [1.5, -0.5]
@@ -126,7 +129,7 @@ print(my_matrix ** -1)
 [-2, 1]
 [1.5, -0.5]
 
-my_matrix2 = Mx.Matrix("1,2,3;4,5,6;7,8,9")
+my_matrix2 = xm("1,2,3;4,5,6;7,8,9")
 
 print(my_matrix2)
 #result:
@@ -134,12 +137,12 @@ print(my_matrix2)
 [4, 5, 6]
 [7, 8, 9]
 
-print(my_matrix2.inverse)
+print(my_matrix2.iv)
 #result:
 #The determinant is zero, can't be inverse.
 #None
 
-my_matrix3 = Mx.Matrix("1,1,1;1,2,3;1,4,5")
+my_matrix3 = mv("1,1,1;1,2,3;1,4,5")
 
 print(my_matrix3)
 #result:
@@ -153,7 +156,7 @@ print(my_matrix3.inverse)
 [1, -2, 1]
 [-1, 1.5, -0.5]
 
-my_matrix4 = Mx.Matrix("1,1,2,1;1,1,0,0;1,1,0,1;1,0,1,0")
+my_matrix4 = mv("1,1,2,1;1,1,0,0;1,1,0,1;1,0,1,0")
 
 print(my_matrix4)
 #result:
@@ -162,7 +165,7 @@ print(my_matrix4)
 [1, 1, 0, 1]
 [1, 0, 1, 0]
 
-print(my_matrix4.inverse)
+print(my_matrix4.iv)
 #result:
 [-0.5, 0, 0.5, 1]
 [0.5, 1, -0.5, -1]
@@ -174,7 +177,7 @@ print(my_matrix4.inverse)
 ```
 #### get the matrix by list
 ```python
-my_matrix = Mx.Matrix("1,2,3;4,5,6;7,8,9")
+my_matrix = xm("1,2,3;4,5,6;7,8,9")
 
 print(my_matrix.raw)
 #result:
@@ -183,11 +186,29 @@ print(my_matrix.raw)
 
 #### get identity Matrix
 ```python
-i = Mx.IdentityMatrix(3)
+i = IdentityMatrix(3)
+i_also_equal_to = ixm(3)
 
 #result:
 print(i)
 [1, 0, 0]
 [0, 1, 0]
 [0, 0, 1]
+```
+
+#### Gaussian elimination Row Reduced Echelon Form
+```python
+my_matrix=xm('1,-3,2,8;-1,4,-2,-9;-3,9,4,6')
+
+#result
+print(my_matrix)
+[1, -3, 2, 8]
+[-1, 4, -2, -9]
+[-3, 9, 4, 6]
+
+# Row Reduced Echelon Form (rref)
+print(my_matrix.rref)
+[1, 0, 0, -1]
+[0, 1, 0, -1]
+[0, 0, 1, 3]
 ```

@@ -1,4 +1,4 @@
-from .matrix import *
+from .matrix import Matrix
 
 
 class IdentityMatrix(Matrix):
@@ -14,3 +14,6 @@ class IdentityMatrix(Matrix):
             tmp.insert(0, tmp_tmp)
             tmp_n -= 1
         super().__init__(tmp)
+
+
+ixm = IdentityMatrix
