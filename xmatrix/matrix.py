@@ -7,8 +7,12 @@ from math import isclose
 
 
 class Matrix:
-    def __init__(self, u: str or list):
-        if not isinstance(u, list):
+    def __init__(self, u: str or list = None):
+        if u is None:
+            self.__error_handler("Unknown matrix!")
+            self.__del__()
+            return
+        if u is not None and not isinstance(u, list):
             u = u.split(";")
             for i, _ in enumerate(u):
                 u[i] = u[i].split(",")
@@ -57,7 +61,7 @@ class Matrix:
 
     # Matrix multiplication
     def __mul__(self, other):
-        if isinstance(other, int) or isinstance(other, float) or isinstance(other, complex):
+        if isinstance(other, (int, float, complex)):
             # method accept single integer to be calculated.
             new = self.__make_copy(self.__storage)
             return Matrix(self.__rate(new, other))
@@ -306,13 +310,21 @@ class Matrix:
     def __add_same_len_list(list_a: list, list_b: list, scalar=1) -> list:
         result = list()
         for i, x in enumerate(list_a):
-            result.append(float(round(x, 4)) + float(scalar * round(list_b[i], 4)))
+            result.append(
+                (round(x, 4) if not isinstance(x, complex) else (round(x.real, 4) + round(x.imag, 4) * 1j)) +
+                (scalar * ((round(list_b[i], 4) if not isinstance(list_b[i], complex) else (
+                        round(list_b[i].real, 4) + round(list_b[i].imag, 4) * 1j))))
+            )
         return result
 
     # find the max nearly round number of the float value.
-    def __get_near_number(self, data: float, pos: int) -> int or float:
-        if not isclose(data, round(data, pos), rel_tol=1e-4):
-            return round(data, pos + 1)
+    def __get_near_number(self, data: float or int or complex, pos: int) -> int or float:
+        if not isclose(data, (
+                (round(data, pos) if not isinstance(data, complex) else (
+                        round(data.real, pos) + round(data.imag, pos) * 1j))),
+                       rel_tol=1e-4):
+            return (round(data, pos + 1) if not isinstance(data, complex) else (
+                    round(data.real, pos + 1) + round(data.imag, pos + 1) * 1j))
         return self.__get_near_number(data, pos - 1)
 
 

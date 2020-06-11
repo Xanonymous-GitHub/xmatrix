@@ -142,7 +142,7 @@ print(my_matrix2.iv)
 #The determinant is zero, can't be inverse.
 #None
 
-my_matrix3 = mv("1,1,1;1,2,3;1,4,5")
+my_matrix3 = xm("1,1,1;1,2,3;1,4,5")
 
 print(my_matrix3)
 #result:
@@ -156,7 +156,7 @@ print(my_matrix3.inverse)
 [1, -2, 1]
 [-1, 1.5, -0.5]
 
-my_matrix4 = mv("1,1,2,1;1,1,0,0;1,1,0,1;1,0,1,0")
+my_matrix4 = xm("1,1,2,1;1,1,0,0;1,1,0,1;1,0,1,0")
 
 print(my_matrix4)
 #result:
