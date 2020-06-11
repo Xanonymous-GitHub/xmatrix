@@ -244,7 +244,12 @@ class Matrix:
         for i, x in enumerate(r):
             for j, y in enumerate(x):
                 # try to turn the data to integer.
-                if not isinstance(r[i][j], complex) and abs(r[i][j] - int(r[i][j])) < 10 ** -4:
+                if isinstance(r[i][j], complex):
+                    if abs(r[i][j].real - int(r[i][j].real)) < 10 ** -4:
+                        r[i][j] = int(r[i][j].real) + r[i][j].imag * 1j
+                    if abs(r[i][j].imag - int(r[i][j].imag)) < 10 ** -4:
+                        r[i][j] = r[i][j].real + int(r[i][j].imag) * 1j
+                elif abs(r[i][j] - int(r[i][j])) < 10 ** -4:
                     r[i][j] = int(r[i][j])
                 # the max floating point length in python is 16 so we use 15 to calculate.
                 if isinstance(r[i][j], float):
