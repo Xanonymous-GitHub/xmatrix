@@ -57,7 +57,7 @@ class Matrix:
 
     # Matrix multiplication
     def __mul__(self, other):
-        if isinstance(other, int):
+        if isinstance(other, int) or isinstance(other, float) or isinstance(other, complex):
             # method accept single integer to be calculated.
             new = self.__make_copy(self.__storage)
             return Matrix(self.__rate(new, other))
